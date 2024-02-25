@@ -1,7 +1,12 @@
 body{
     background-color: rgb(36, 36, 36);
     background-image: url("/bg.jpg");
-    background-repeat:repeat-y;
+    background-repeat: repeat-y;
+}
+
+html{
+    scrollbar-width: thin;
+    scrollbar-color: #303030 #1e1e1e;
 }
 
 #box {
@@ -11,11 +16,13 @@ body{
     background-color: #1E1E1E;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    overflow-y: scroll;
     font-family: "Quicksand", monospace;
     font-size: large;
     font-weight: bolder;
     color: white;
+    max-height: 750px;
+    min-height: 700px;
+    overflow-y: scroll;
 }
 
 #main {
