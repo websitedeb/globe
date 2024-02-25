@@ -1,8 +1,7 @@
 body{
     background-color: rgb(36, 36, 36);
     background-image: url("/bg.jpg");
-    background-repeat: no-repeat;
-    overflow-y: scroll;
+    background-repeat:repeat-y;
 }
 
 #box {
