@@ -20,8 +20,8 @@ html{
     font-size: large;
     font-weight: bolder;
     color: white;
-    max-height: 750px;
-    min-height: 700px;
+    max-height: 600px;
+    min-height: 550px;
     overflow-y: scroll;
 }
 
