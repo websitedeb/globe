@@ -18,13 +18,19 @@ btn.addEventListener("click", (e) => {
     
     const displayName = dnt.value.trim();
     const message = tbx.value.trim();
+    const hour = new Date().getHours();
+    const mins = new Date().getMinutes();
+    const day = new Date().getDay();
+    const date = new Date().getDate();
+    const month = new Date().getMonth();
+    const year = new Date().getFullYear();
     
     if (!displayName || !message) {
         alert("Please fill out both the Displayname and Message fields.");
         return;
     }
     
-    const formattedMessage = `[${displayName}]: ${message}`;
+    const formattedMessage = `[${displayName}] (${day} ${date}/${month}/${year} ${hour}:${mins}): ${message}`;
     socket.emit("chat message", formattedMessage);
     
     tbx.value = "";
