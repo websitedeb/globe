@@ -86,10 +86,18 @@ input[type="text"] {
     cursor: pointer;
 }
 
+#btn-p{
+    background-color: blueviolet;
+}
+
 #btn i, #btn-p i {
     font-size: 1.2rem;
 }
 
-#btn:hover, #btn-p:hover {
+#btn:hover {
     background-color: #0056b3;
+}
+
+#btn-p:hover{
+    background-color: purple
 }
