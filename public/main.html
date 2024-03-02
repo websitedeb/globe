@@ -14,10 +14,19 @@
 <body>
     <form id="messageForm">
         <div id="box" class="_div"></div>
+        <div id="box2" class="_div"></div>
         <div id="main" class="_div"> 
-            <input type="text" placeholder="Displayname" id="dnt" required>
-            <input type="text" id="tbx" placeholder="Type your Message Here" required>
+          <div id="flex1">  
+            <input type="text" placeholder="Displayname" id="dnt">
+            <input type="text" id="tbx" placeholder="Type your Message Here">
             <button type="submit" id="btn"><i class="bi bi-send-fill"></i></button>
+          </div>
+          &nbsp;
+          <div id="flex2">
+            <input type="text" placeholder="Recivers Display Name" id="dnt-p">
+            <input type="text" id="tbx-p" placeholder="Type your Message Here">
+            <button type="submit" id="btn-p"><i class="bi bi-send-fill"></i></button>
+          </div>
         </div>
     </form>
     <script src="https://cdn.socket.io/4.7.4/socket.io.min.js" integrity="sha384-Gr6Lu2Ajx28mzwyVR8CFkULdCU7kMlZ9UthllibdOSo6qAiN+yXNHqtgdTvFXMT4" crossorigin="anonymous"></script>
