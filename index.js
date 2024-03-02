@@ -12,16 +12,36 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 let messages = [];
+let user = {};
+let pm = [];
 
 io.on("connection", (socket) => {
 
     socket.emit("previous messages", messages);
 
-    socket.on("disconnect", () => {});
-
     socket.on("chat message", (msg) => {
         messages.push(msg);
         io.emit("chat message", msg);
+    });
+
+    socket.on("server user check", (display, userData) => {
+        let dn = `${display}`;
+        let u = `${userData}`;
+        user[dn] = u;
+    });
+
+    socket.on("private chat message", (msg, reciver) => {
+        pm.push(msg);
+        const reciver_decoded = user[reciver];
+        io.to(reciver_decoded).emit("private chat message", msg);
+    })
+
+    socket.on("disconnect", () => {
+        let keyToDelete = Object.keys(user).find(key => user[key] === socket.id);
+    
+        if (keyToDelete) {
+            delete user[keyToDelete];
+        }
     });
 });
 
