@@ -8,6 +8,11 @@ const dntp = document.getElementById("dnt-p");
 const btnp = document.getElementById("btn-p");
 const boxp = document.getElementById("box2");
 
+const save = document.getElementById("save");
+const no = document.getElementById("stop");
+
+let granted;
+
 const socket = io();
 
 socket.on("previous messages", (previousMessages) => {
@@ -48,6 +53,11 @@ socket.on("chat message", (msg) => {
     const p = document.createElement("p");
     p.textContent = msg;
     box.appendChild(p);
+    if(granted){
+        new Notification("GyroGlobe", {
+            body: msg
+        })
+    }
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,4 +92,45 @@ socket.on("private chat message", (msg) => {
     const pp = document.createElement("p");
     pp.textContent = msg;
     boxp.appendChild(pp);
+    if(granted){
+        new Notification("GyroGlobe", {
+            body: msg
+        })
+    }
+});
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+document.addEventListener("DOMContentLoaded", (e) => {
+    save.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        await Notification.requestPermission().then((res) => {
+           switch(res){
+            case "granted":
+                granted = true;
+                console.log("granted");
+                break;
+            case "default":
+                console.log("default");
+                break;
+            case "denied":
+                granted = false;
+                console.log("denied");
+                break;
+            default:
+                console.log("none");
+                break;
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    });
+
+    no.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        granted = false;
+    });
 });
