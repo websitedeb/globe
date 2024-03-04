@@ -58,13 +58,32 @@ p{
     color: white;
 }
 
-#flex1, #flex2{
+#flex1, #flex2, #flex3{
     display: flex;
+    text-align: center;
+    align-items: center;
 }
 
 #flex1{
     border-bottom: 5px#303030 solid;
     padding-bottom: 17.5px;
+}
+
+#flex2{
+    border-bottom: 5px#303030 solid;
+    padding-bottom: 17.5px;
+}
+
+.bi bi-bell-fill{
+    color: #FFFFFF;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.bi bi-bell-slash-fill{
+    color: #FFFFFF;
+    font-size: xx-large;
+    font-weight: bold;
 }
 
 input[type="text"] {
@@ -86,11 +105,31 @@ input[type="text"] {
     cursor: pointer;
 }
 
+#save{
+    background-color: rgb(0, 218, 0);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+#stop{
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bolder;
+}
+
 #btn-p{
     background-color: blueviolet;
 }
 
-#btn i, #btn-p i {
+#btn i, #btn-p i, #save {
     font-size: 1.2rem;
 }
 
@@ -100,4 +139,12 @@ input[type="text"] {
 
 #btn-p:hover{
     background-color: purple
+}
+
+#save:hover{
+    background-color: rgb(0, 155, 0);
+}
+
+#stop:hover{
+    background-color: rgb(179, 0, 0);
 }
