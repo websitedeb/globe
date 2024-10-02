@@ -23,11 +23,19 @@ socket.on("previous messages", (previousMessages) => {
     });
 });
 
-btn.addEventListener("click", (e) => {
-    e.preventDefault();
+socket.on("send users", (users) => {
+    let displayName = dnt.value.trim();
+    let i = 1;
     
-    const displayName = dnt.value.trim();
-    const message = tbx.value.trim();
+    if(users) {
+        Object.keys(users).forEach(key => {
+            if (displayName === key && users[key] !== socket.id) { 
+                displayName = displayName + i;  
+                i++;
+            }
+        });
+    }
+
     const hour = new Date().getHours();
     const mins = new Date().getMinutes();
     const day = new Date().getDay();
@@ -35,19 +43,30 @@ btn.addEventListener("click", (e) => {
     const month = new Date().getMonth();
     const year = new Date().getFullYear();
     
+    const message = tbx.value.trim();
+    const formattedMessage = `[${displayName}] (${day} ${date}/${month}/${year} ${hour}:${mins}): ${message}`;
+    const user = socket.id;
+
+    socket.emit("chat message", formattedMessage);
+    socket.emit("server user check", displayName, user);
+
+    tbx.value = "";
+});
+
+btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    
+    const displayName = dnt.value.trim();
+    const message = tbx.value.trim();
+    
     if (!displayName || !message) {
         alert("Please fill out both the Displayname and Message fields.");
         return;
     }
-    
-    const formattedMessage = `[${displayName}] (${day} ${date}/${month}/${year} ${hour}:${mins}): ${message}`;
-    const user = socket.id;
-    console.log(user)
-    socket.emit("chat message", formattedMessage);
-    socket.emit("server user check", displayName, user);
-    
-    tbx.value = "";
+
+    socket.emit("request users", {});
 });
+
 
 socket.on("chat message", (msg) => {
     const p = document.createElement("p");
@@ -62,31 +81,52 @@ socket.on("chat message", (msg) => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-btnp.addEventListener("click", (e) => {
-    e.preventDefault();
+socket.on("send private users", users => {
+    let displayName = dnt.value.trim();
+    let userdisplay = dntp.value.trim();
+    let i = 1;
 
-    const displayName = dnt.value.trim();
-    const userdisplay = dntp.value.trim();
-    const message = tbxp.value.trim();
+    if (users) {
+        Object.keys(users).forEach(key => {
+            if (displayName === key && users[key] !== socket.id) {
+                displayName = displayName + i;
+                i++;
+            }
+        });
+    }
+
     const hour = new Date().getHours();
     const mins = new Date().getMinutes();
     const day = new Date().getDay();
     const date = new Date().getDate();
     const month = new Date().getMonth();
     const year = new Date().getFullYear();
-
-    if(!displayName && !message && !userdisplay){
-        alert("Please fill out both the Recivers Display Name and Message fields and Displayname.");
-        return;
-    }    
-
+    
+    const message = tbxp.value.trim();
     const formattedMessage = `[${displayName}] (${day} ${date}/${month}/${year} ${hour}:${mins}): ${message}`;
     const user = socket.id;
+
     socket.emit("private chat message", formattedMessage, userdisplay);
     socket.emit("server user check", displayName, user);
-    
+
     tbxp.value = "";
 });
+
+btnp.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const displayName = dnt.value.trim();
+    const userdisplay = dntp.value.trim();
+    const message = tbxp.value.trim();
+
+    if (!displayName || !message || !userdisplay) {
+        alert("Please fill out both the Receiver's Display Name, Message fields, and your Display Name.");
+        return;
+    }
+
+    socket.emit("request private users", {});
+});
+
 
 socket.on("private chat message", (msg) => {
     const pp = document.createElement("p");
@@ -109,28 +149,23 @@ document.addEventListener("DOMContentLoaded", (e) => {
            switch(res){
             case "granted":
                 granted = true;
-                console.log("granted");
                 break;
             case "default":
-                console.log("default");
                 break;
             case "denied":
                 granted = false;
-                console.log("denied");
                 break;
             default:
-                console.log("none");
                 break;
             }
         })
         .catch((err) => {
-            console.log(err)
+            console.error(err);
         })
     });
 
     no.addEventListener("click", (e) => {
         e.preventDefault();
-
         granted = false;
     });
 });
