@@ -30,6 +30,16 @@ io.on("connection", (socket) => {
         user[dn] = u;
     });
 
+    socket.on("request users", none => {
+        let id = socket.id;
+        socket.emit("send users", user);
+    })
+
+    socket.on("request private users", none => {
+        let id = socket.id;
+        socket.emit("send private users", user);
+    })
+
     socket.on("private chat message", (msg, reciver) => {
         pm.push(msg);
         const reciver_decoded = user[reciver];
